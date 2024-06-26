@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Pago de Producto</title>
+    <style>
+        body {
+            padding: 40px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .error {
+            color: red;
+            font-size: 0.875em;
+            margin-left: 10px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="text-center mb-4">Pago de Producto</h1>
+            <form onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="inputNombre">Nombre:</label>
+                    <input type="text" class="form-control" id="inputNombre" placeholder="Ingrese su nombre">
+                    <div id="nombreError" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="inputDireccion">Dirección:</label>
+                    <input type="text" class="form-control" id="inputDireccion" placeholder="Ingrese su dirección">
+                    <div id="direccionError" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="inputCorreo">Correo:</label>
+                    <input type="email" class="form-control" id="inputCorreo" placeholder="Ingrese su correo electrónico">
+                    <div id="correoError" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="inputTelefono">Teléfono:</label>
+                    <input type="tel" class="form-control" id="inputTelefono" placeholder="Ingrese su teléfono">
+                    <div id="telefonoError" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="inputTarjeta">Número de Tarjeta:</label>
+                    <input type="text" class="form-control" id="inputTarjeta" placeholder="Ingrese su número de tarjeta">
+                    <div id="tarjetaError" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="inputFechaExpiracion">Fecha de Expiración:</label>
+                    <input type="text" class="form-control" id="inputFechaExpiracion" placeholder="MM/AAAA">
+                    <div id="fechaExpiracionError" class="error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="inputCVV">CVV:</label>
+                    <input type="text" class="form-control" id="inputCVV" placeholder="Ingrese el CVV">
+                    <div id="cvvError" class="error"></div>
+                </div>
+				<button type="button" class="btn btn-primary btn-block mt-3" onclick="location.href='pagoexitoso'">Pagar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            // Validar nombre
+            const nombre = document.getElementById('inputNombre').value;
+            const nombreError = document.getElementById('nombreError');
+            if (nombre.length < 2 || nombre.length > 50) {
+                nombreError.textContent = 'El nombre debe tener entre 2 y 50 caracteres.';
+                isValid = false;
+            } else {
+                nombreError.textContent = '';
+            }
+
+            // Validar dirección
+            const direccion = document.getElementById('inputDireccion').value;
+            const direccionError = document.getElementById('direccionError');
+            if (direccion.length < 10 || direccion.length > 50) {
+                direccionError.textContent = 'La dirección debe tener entre 10 y 50 caracteres.';
+                isValid = false;
+            } else {
+                direccionError.textContent = '';
+            }
+
+            // Validar correo
+            const correo = document.getElementById('inputCorreo').value;
+            const correoError = document.getElementById('correoError');
+            const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!correoRegex.test(correo)) {
+                correoError.textContent = 'Ingrese un correo electrónico válido.';
+                isValid = false;
+            } else {
+                correoError.textContent = '';
+            }
+
+            // Validar teléfono
+            const telefono = document.getElementById('inputTelefono').value;
+            const telefonoError = document.getElementById('telefonoError');
+            const telefonoRegex = /^[0-9]{9}$/;
+            if (!telefonoRegex.test(telefono)) {
+                telefonoError.textContent = 'Ingrese un número de teléfono válido (9 dígitos).';
+                isValid = false;
+            } else {
+                telefonoError.textContent = '';
+            }
+
+            // Validar número de tarjeta
+            const tarjeta = document.getElementById('inputTarjeta').value;
+            const tarjetaError = document.getElementById('tarjetaError');
+            const tarjetaRegex = /^[0-9]{16}$/;
+            if (!tarjetaRegex.test(tarjeta)) {
+                tarjetaError.textContent = 'Ingrese un número de tarjeta válido (16 dígitos).';
+                isValid = false;
+            } else {
+                tarjetaError.textContent = '';
+            }
+
+            // Validar fecha de expiración
+			const inputFechaExpiracion = document.getElementById('inputFechaExpiracion');
+			const fechaExpiracionError = document.getElementById('fechaExpiracionError');
+			const fechaExpiracionRegex = /^(0[1-9]|1[0-2])\/(20[2-9]\d)$/;
+			const fechaExpiracion = inputFechaExpiracion.value;
+			    const [mes, ano] = fechaExpiracion.split('/');
+			    const fechaActual = new Date();
+			    const anoActual = fechaActual.getFullYear();
+			    const mesActual = fechaActual.getMonth() + 1;
+			
+			    if (!fechaExpiracionRegex.test(fechaExpiracion)) {
+			        fechaExpiracionError.textContent = 'Ingrese una fecha de expiración válida en formato MM/AAAA.';
+			        isValid = false;
+			    } else {
+			        const expiracionAno = parseInt(ano, 10);
+			        const expiracionMes = parseInt(mes, 10);
+			
+			        if (expiracionAno < anoActual || (expiracionAno === anoActual && expiracionMes < mesActual)) {
+			            fechaExpiracionError.textContent = 'La fecha de expiración no puede ser anterior a la fecha actual.';
+			            isValid = false;
+			        } else {
+			            fechaExpiracionError.textContent = '';
+			        }
+			    }
+
+            // Validar CVV
+            const cvv = document.getElementById('inputCVV').value;
+            const cvvError = document.getElementById('cvvError');
+            const cvvRegex = /^[0-9]{3}$/;
+            if (!cvvRegex.test(cvv)) {
+                cvvError.textContent = 'Ingrese un CVV válido (3 dígitos).';
+                isValid = false;
+            } else {
+                cvvError.textContent = '';
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

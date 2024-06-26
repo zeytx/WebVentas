@@ -1,14 +1,17 @@
 package org.upn.edu.pe.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -84,6 +87,23 @@ public class Venta {
 	}
 	
 	
-	
+	@OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Detalle> detalles = new ArrayList<>();
+
+    // Getter y setter para detalles
+    public List<Detalle> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<Detalle> detalles) {
+        this.detalles = detalles;
+    }
+
+    // Método para agregar detalle
+    public void agregarDetalle(Detalle detalle) {
+        detalles.add(detalle);
+        detalle.setVenta(this); // Establece la relación inversa
+    }
+
 	
 }
